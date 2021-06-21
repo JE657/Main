@@ -1,0 +1,59 @@
+{
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "editor.formatOnSave": true,
+  "window.zoomLevel": 1,
+  "workbench.colorTheme": "Material Theme Ocean",
+  "explorer.confirmDragAndDrop": false,
+  "editor.codeLens": false,
+  "editor.fontSize": 14,
+  "editor.fontFamily": "'Consolas'",
+  "editor.fontWeight": "600",
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": false,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "rojo.pluginManagement": true,
+  "git.ignoreWindowsGit27Warning": true,
+  "vsicons.dontShowNewVersionMessage": true,
+  "tabnine.experimentalAutoImports": true,
+  "terminal.integrated.tabs.enabled": true,
+  "auto-close-tag.excludedTags": [
+    "$",
+    "area",
+    "base",
+    "br",
+    "col",
+    "command",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr"
+  ],
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter.notebook.ipynb"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "python.formatting.autopep8Path": "C:\\Users\\jorda_j47pdtt\\AppData\\Roaming\\Python\\Python37\\site-packages\\autopep8.py",
+  "python.formatting.provider": "autopep8",
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "ms-python.python"
+  },
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "explorer.confirmDelete": false,
+  "autoDocstring.includeName": true,
+  "autoDocstring.startOnNewLine": true,
+  "autoDocstring.docstringFormat": "google"
+
+  // "autoDocstring.customTemplatePath": "C:\\Users\\Jorda_j47pdtt\\githubprojects\\python\\defaulttemplate.mustache"
+}
