@@ -83,37 +83,42 @@ class Scraper:
 
     def scrape_page(self, _page_id, _keyword):
 
-        # If by some chance _page_id, an undefined value for _page_id is passed.
+        # If by some chance _page_id is undefined, a default value for _page_id is passed.
         if not _page_id:
             _page_id = 303
 
-        print("attempting to scrape page id {}".format(_page_id))
+        print("Attempting to Scrape Page ID: {}".format(_page_id))
         page_number = 1
 
         try:
             response = requests.get(
                 self.base_url + str(_page_id) + "&page=" + str(page_number)
             )
-            soup = BeautifulSoup(response.content, "html.parser")
+            # Check for a valid HTTP response code, otherwise terminate the program
+            if response.status_code == "200":
+                # Use BS4 to parse the HTML to grab data from
+                soup = BeautifulSoup(response.content, "html.parser")
+                page_category = soup.select('span[id="filterCat"] > b').text
 
-            # page_category = soup.select('span[id="filterCat"] > b').text
-
-            if not soup.body:
-                print("Id of {} invalid, skipping page".format(_id))
-            else:
+                # Obtain Titles of All Listings on the Current Pages
+                # Along with
                 titles = soup.select("h1.searchtitle > strong")
+                # Listing Descriptions
                 descs = soup.select(
                     'p[class="adDescription uk-text-break uk-link-muted well"]'
                 )
+                # Alias of Listing Authors
                 sellers = soup.select(
                     'span[class="adSeller uk-text-small uk-text-nowrap uk-link-muted"] > b'
                 )
-
+                # Price of Listing
                 prices = soup.select('span[class="searchprice"]')
 
-                for title, desc, price, sell in zip(titles, descs, prices, sellers):
-                    if not sell.text in contact["Contact_Name"]:
-                        res = requests.get("https://www.mybenta.com/" + sell.text)
+                # Range-based for loop to iterate through all current listings, going by the length of the titles array
+                for i in range(len(titles)):
+                    # If the seller
+                    if not sellers[i].text in contact["Contact_Name"]:
+                        res = requests.get("https://www.mybenta.com/" + sellers[i].text)
                         soup = BeautifulSoup(res.content, "html.parser")
 
                         ob = soup.select_one('i[class="uk-icon-location-arrow"]')
@@ -146,12 +151,12 @@ class Scraper:
                         if _im["src"][0:4] == "/img":
                             images.append(complete_url + _im["src"])
 
-                    contact["Listing"].append(title.text)
-                    contact["Description"].append(desc.text)
-                    contact["Price"].append(price.text)
+                    contact["Listing"].append(titles[i].text)
+                    contact["Description"].append(descs[i].text)
+                    contact["Price"].append(prices[i].text)
                     contact["Images"].append(images)
-                    contact["Contact_Name"].append(sell.text)
-                    contact["Contact_Number"].append(ob.text)
+                    contact["Contact_Name"].append(sellers[i].text)
+                    contact["Contact_Number"].append(contact_number.text)
 
                     time.sleep(3)
 
@@ -165,14 +170,14 @@ class Scraper:
                     )
                     page_no += 1
 
-                # time.sleep(3)
+                    # time.sleep(3)
 
-                df = pd.DataFrame(data=contact)
-                # df.to_csv('{}_page{}_listings.csv'.format(_id, page_no), index=False, header=1)
-                print("Saved {}_bentalistings.xlsx".format(_id))
-                df.to_excel("{}_bentalistings.xlsx".format(_id))
+                    df = pd.DataFrame(data=contact)
+                    # df.to_csv('{}_page{}_listings.csv'.format(_id, page_no), index=False, header=1)
+                    print("Saved {}_bentalistings.xlsx".format(_id))
+                    df.to_excel("{}_bentalistings.xlsx".format(_id))
 
-                sys.exit(1)
+                    sys.exit(1)
         except:
             print(
                 "An Error Occured with Scraping the Page {} at {}\n{}".format(
